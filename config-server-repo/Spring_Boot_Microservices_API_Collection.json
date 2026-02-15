@@ -1,0 +1,531 @@
+{
+	"info": {
+		"name": "Spring Boot Microservices API Collection",
+		"description": "Complete collection of REST APIs from all Spring Boot applications in the microservice ecosystem",
+		"version": "1.0.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Config Server (Port 8888)",
+			"description": "Spring Cloud Config Server providing centralized configuration",
+			"item": [
+				{
+					"name": "Test Eureka Client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/configserver/testeureka",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8888",
+							"path": ["configserver", "testeureka"]
+						},
+						"description": "Tests Eureka service discovery from config server"
+					}
+				},
+				{
+					"name": "Get Config for Demo Service (Default Profile)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/demo/default",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8888",
+							"path": ["demo", "default"]
+						},
+						"description": "Get configuration for demo service with default profile"
+					}
+				},
+				{
+					"name": "Get Config for Demo Service (Production Profile)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/demo/production",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8888",
+							"path": ["demo", "production"]
+						},
+						"description": "Get configuration for demo service with production profile"
+					}
+				}
+			]
+		},
+		{
+			"name": "Eureka Server (Port 8761)",
+			"description": "Service Discovery Server",
+			"item": [
+				{
+					"name": "Eureka Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8761",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8761"
+						},
+						"description": "Access Eureka web dashboard"
+					}
+				},
+				{
+					"name": "Get All Registered Services",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8761/eureka/apps",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8761",
+							"path": ["eureka", "apps"]
+						},
+						"description": "Get all services registered with Eureka"
+					}
+				}
+			]
+		},
+		{
+			"name": "Gateway Server (Port 8082)",
+			"description": "API Gateway routing requests to microservices",
+			"item": [
+				{
+					"name": "Route to Demo Root",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": [""]
+						},
+						"description": "Gateway route to demo service root endpoint"
+					}
+				},
+				{
+					"name": "Route to Demo Test Eureka",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/demo/testeureka",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["demo", "testeureka"]
+						},
+						"description": "Gateway route to demo eureka test endpoint"
+					}
+				},
+				{
+					"name": "Route to Product (Protected)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"description": "JWT token required for protected routes"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8082/product/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["product", "1"]
+						},
+						"description": "Gateway route to product service (requires JWT token)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Demo Service (Port 8080)",
+			"description": "Main demo application with products and authentication",
+			"item": [
+				{
+					"name": "Authentication",
+					"description": "Authentication endpoints",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "admin",
+											"description": "Username (default: admin)"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"description": "Password (default: password)"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/auth/login",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["auth", "login"]
+								},
+								"description": "Authenticate user and get JWT token"
+							}
+						}
+					]
+				},
+				{
+					"name": "Hello World",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": [""]
+						},
+						"description": "Get welcome message from demo service"
+					}
+				},
+				{
+					"name": "Test Eureka",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/demo/testeureka",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["demo", "testeureka"]
+						},
+						"description": "Test Eureka service discovery"
+					}
+				},
+				{
+					"name": "Product API",
+					"description": "Product-related endpoints",
+					"item": [
+						{
+							"name": "Get Product by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/product/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["product", "1"]
+								},
+								"description": "Get a specific product by ID"
+							}
+						}
+					]
+				},
+				{
+					"name": "Spring Data REST API",
+					"description": "Auto-generated REST endpoints from Spring Data repositories",
+					"item": [
+						{
+							"name": "Get All Products (Repository)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/product",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["product"]
+								},
+								"description": "Get all products via Spring Data REST"
+							}
+						},
+						{
+							"name": "Get Product by ID (Repository)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/product/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["product", "1"]
+								},
+								"description": "Get a specific product by ID via Spring Data REST"
+							}
+						},
+						{
+							"name": "Create New Product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Sample Product\",\n  \"price\": 99.99,\n  \"description\": \"A sample product\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/product",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["product"]
+								},
+								"description": "Create a new product via Spring Data REST"
+							}
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated Product\",\n  \"price\": 129.99,\n  \"description\": \"An updated product\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/product/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["product", "1"]
+								},
+								"description": "Update an existing product via Spring Data REST"
+							}
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/product/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["product", "1"]
+								},
+								"description": "Delete a product via Spring Data REST"
+							}
+						},
+						{
+							"name": "Search Products by Name",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/product/search/findByName?name=Sample Product",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["product", "search", "findByName"],
+									"query": [
+										{
+											"key": "name",
+											"value": "Sample Product"
+										}
+									]
+								},
+								"description": "Search products by name via Spring Data REST"
+							}
+						}
+					]
+				},
+				{
+					"name": "Actuator Endpoints",
+					"description": "Spring Boot Actuator monitoring and management endpoints",
+					"item": [
+						{
+							"name": "Health Check",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/health",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["actuator", "health"]
+								},
+								"description": "Check application health status"
+							}
+						},
+						{
+							"name": "Application Info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/info",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["actuator", "info"]
+								},
+								"description": "Get application information"
+							}
+						},
+						{
+							"name": "Refresh Configuration",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/refresh",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["actuator", "refresh"]
+								},
+								"description": "Refresh configuration from config server"
+							}
+						},
+						{
+							"name": "Metrics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/metrics",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8080",
+									"path": ["actuator", "metrics"]
+								},
+								"description": "Get application metrics"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Demo-1 Service (Port 8081)",
+			"description": "Secondary demo application for testing",
+			"item": [
+				{
+					"name": "Hello World",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": [""]
+						},
+						"description": "Get welcome message from demo-1 service"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token obtained from login endpoint"
+		},
+		{
+			"key": "config_server_url",
+			"value": "http://localhost:8888",
+			"type": "string"
+		},
+		{
+			"key": "eureka_server_url",
+			"value": "http://localhost:8761",
+			"type": "string"
+		},
+		{
+			"key": "gateway_server_url",
+			"value": "http://localhost:8082",
+			"type": "string"
+		},
+		{
+			"key": "demo_service_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "demo1_service_url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
